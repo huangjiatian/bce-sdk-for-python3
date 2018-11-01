@@ -129,8 +129,6 @@ def send_request(
         should_get_new_date = True
     headers[http_headers.HOST] = config.endpoint
 
-    if isinstance(body, str):
-        body = body.encode(baidubce.DEFAULT_ENCODING)
     if not body:
         headers[http_headers.CONTENT_LENGTH] = 0
     elif isinstance(body, str):

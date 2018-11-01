@@ -55,7 +55,7 @@ def get_md5_from_fp(fp, offset=0, length=-1, buf_size=8192):
         buf = fp.read(bytes_to_read)
         if not buf:
             break
-        md5.update(buf)
+        md5.update(buf.encode(baidubce.DEFAULT_ENCODING))
         if length > 0:
             length -= len(buf)
         if length == 0:
@@ -118,10 +118,10 @@ def convert_to_standard_string(input_string):
     :param input_string: None
     =======================
     :return:
-        **string**
+        **bytes**
     """
     if isinstance(input_string, str):
-        return input_string.encode(baidubce.DEFAULT_ENCODING)
+        return input_string
     else:
         return str(input_string)
 
@@ -208,10 +208,10 @@ def normalize_string(in_str, encoding_slash=True):
     """
     tmp = []
     for ch in convert_to_standard_string(in_str):
-        if ch == 47 and not encoding_slash:
+        if ch == '/' and not encoding_slash:
             tmp.append('/')
         else:
-            tmp.append(_NORMALIZED_CHAR_LIST[ch])
+            tmp.append(_NORMALIZED_CHAR_LIST[ord(ch)])
     return ''.join(tmp)
 
 

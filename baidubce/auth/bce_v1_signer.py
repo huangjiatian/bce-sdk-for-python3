@@ -14,6 +14,7 @@
 This module provides authentication functions for bce services.
 """
 
+import baidubce
 import hashlib
 import hmac
 import logging
@@ -63,8 +64,8 @@ def sign(credentials, http_method, path, headers, params,
         utils.get_canonical_time(timestamp),
         expiration_in_seconds)
     sign_key = hmac.new(
-        credentials.secret_access_key.encode("utf8"),
-        sign_key_info.encode("utf8"),
+        credentials.secret_access_key.encode(baidubce.DEFAULT_ENCODING),
+        sign_key_info.encode(baidubce.DEFAULT_ENCODING),
         hashlib.sha256).hexdigest()
 
     canonical_uri = path
@@ -75,7 +76,10 @@ def sign(credentials, http_method, path, headers, params,
     string_to_sign = '\n'.join(
         [http_method, canonical_uri, canonical_querystring, canonical_headers])
 
-    sign_result = hmac.new(sign_key.encode("utf8"), string_to_sign.encode("utf8"), hashlib.sha256).hexdigest()
+    sign_result = hmac.new(
+        sign_key.encode(baidubce.DEFAULT_ENCODING),
+        string_to_sign.encode(baidubce.DEFAULT_ENCODING),
+        hashlib.sha256).hexdigest()
 
     if headers_to_sign:
         result = '%s/%s/%s' % (sign_key_info, ';'.join(headers_to_sign), sign_result)
