@@ -428,8 +428,7 @@ class BosClient(BceBaseClient):
         for k, v in http_response.getheaders():
             if k.startswith(http_headers.BCE_USER_METADATA_PREFIX):
                 k = k[len(http_headers.BCE_USER_METADATA_PREFIX):]
-                user_metadata[k.decode(baidubce.DEFAULT_ENCODING)] = \
-                    v.decode(baidubce.DEFAULT_ENCODING)
+                user_metadata[k] = v
         response.metadata.user_metadata = user_metadata
         response.data = http_response
         return True

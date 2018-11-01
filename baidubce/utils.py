@@ -208,7 +208,7 @@ def normalize_string(in_str, encoding_slash=True):
     """
     tmp = []
     for ch in convert_to_standard_string(in_str):
-        if ch == '/' and not encoding_slash:
+        if ch == 47 and not encoding_slash:
             tmp.append('/')
         else:
             tmp.append(_NORMALIZED_CHAR_LIST[ch])
