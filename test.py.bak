@@ -1,0 +1,28 @@
+import logging
+
+from baidubce.bce_client_configuration import BceClientConfiguration
+from baidubce.auth.bce_credentials import BceCredentials
+from baidubce import exception
+from baidubce.services import bos
+from baidubce.services.bos import canned_acl
+from baidubce.services.bos.bos_client import BosClient
+
+bos_host = "bj.bcebos.com"
+access_key_id = "7e97772725004a2baa5076c932f7f883"
+secret_access_key = "90f3e1e530a944258774ca1ef51c33fa"
+
+logger = logging.getLogger("baidubce.http.bce_http_client")
+fh = logging.FileHandler("sample.log")
+fh.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(fh)
+
+config = BceClientConfiguration(credentials=BceCredentials(access_key_id, secret_access_key), endpoint = bos_host)
+bos_client = BosClient(config)
+
+response = bos_client.list_buckets()
+for bucket in response.buckets:
+    print (bucket.name)
