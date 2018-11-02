@@ -122,6 +122,8 @@ def convert_to_standard_string(input_string):
     """
     if isinstance(input_string, str):
         return input_string
+    if isinstance(input_string, bytes):
+        return input_string.decode(baidubce.DEFAULT_ENCODING)
     else:
         return str(input_string)
 

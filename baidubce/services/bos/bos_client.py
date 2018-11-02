@@ -624,7 +624,7 @@ class BosClient(BceBaseClient):
               key=str,
               data=object,
               content_length=(int, int),
-              content_md5=str)
+              content_md5=bytes)
     def put_object(self, bucket_name, key, data,
                    content_length,
                    content_md5,
