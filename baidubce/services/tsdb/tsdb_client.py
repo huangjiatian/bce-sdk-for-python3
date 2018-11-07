@@ -19,6 +19,7 @@ import copy
 import json
 import logging
 import gzip
+import baidubce
 
 from baidubce import bce_client_configuration
 from baidubce import utils
@@ -30,6 +31,7 @@ from baidubce.http import http_content_types
 from baidubce.http import http_headers
 from baidubce.http import http_methods
 from baidubce.services.tsdb import tsdb_handler
+from baidubce.utils import required
 
 
 
@@ -253,10 +255,13 @@ class TsdbClient(BceBaseClient):
                                  path,
                                  utils.get_canonical_querystring(params, False))
 
-    def _gzip_compress(self, str): 
-        out = io.StringIO() 
-        with gzip.GzipFile(fileobj=out, mode="w") as f: 
-            f.write(str) 
+    @required(rawstr=str)
+    def _gzip_compress(self, rawstr): 
+        out = io.BytesIO()
+
+        with gzip.open(filename=out, mode='wt') as f:
+            f.write(rawstr)
+        
         return out.getvalue()
 
     def _merge_config(self, config):

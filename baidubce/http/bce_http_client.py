@@ -62,7 +62,7 @@ def _send_http_request(conn, http_method, uri, headers, body, send_buf_size):
     conn.endheaders()
 
     if body:
-        if isinstance(body, str):
+        if isinstance(body, (str, bytes)):
             conn.send(body)
         else:
             total = int(headers[http_headers.CONTENT_LENGTH])
@@ -131,7 +131,7 @@ def send_request(
 
     if not body:
         headers[http_headers.CONTENT_LENGTH] = 0
-    elif isinstance(body, str):
+    elif isinstance(body, (str, bytes)):
         headers[http_headers.CONTENT_LENGTH] = len(body)
     elif http_headers.CONTENT_LENGTH not in headers:
         raise ValueError('No %s is specified.' % http_headers.CONTENT_LENGTH)

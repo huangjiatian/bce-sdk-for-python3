@@ -56,9 +56,9 @@ def parse_error(http_response, response):
 
     :raise baidubce.exception.BceClientError: if http status code is NOT 2xx
     """
-    if http_response.status / 100 == http.client.OK / 100:
+    if http_response.status // 100 == http.client.OK // 100:
         return False
-    if http_response.status / 100 == http.client.CONTINUE / 100:
+    if http_response.status // 100 == http.client.CONTINUE // 100:
         raise BceClientError('Can not handle 1xx http status code')
     bse = None
     body = http_response.read()

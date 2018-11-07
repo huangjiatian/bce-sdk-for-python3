@@ -62,7 +62,7 @@ class BosClient(BceBaseClient):
         """
         return self._send_request(http_methods.GET, config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def get_bucket_location(self, bucket_name, config=None):
         """
         Get the region which the bucket located in.
@@ -79,7 +79,7 @@ class BosClient(BceBaseClient):
         response = self._send_request(http_methods.GET, bucket_name, params=params, config=config)
         return response.location_constraint
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def create_bucket(self, bucket_name, config=None):
         """
         Create bucket with specific name
@@ -93,7 +93,7 @@ class BosClient(BceBaseClient):
         """
         return self._send_request(http_methods.PUT, bucket_name, config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def does_bucket_exist(self, bucket_name, config=None):
         """
         Check whether there is a bucket with specific name
@@ -114,7 +114,7 @@ class BosClient(BceBaseClient):
                     return False
             raise e
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def get_bucket_acl(self, bucket_name, config=None):
         """
         Get Access Control Level of bucket
@@ -134,7 +134,7 @@ class BosClient(BceBaseClient):
                 result[k] = v
         return result
 
-    @required(bucket_name=(str, str), acl=(list, dict))
+    @required(bucket_name=str, acl=(list, dict))
     def set_bucket_acl(self, bucket_name, acl, config=None):
         """
         Set Access Control Level of bucket
@@ -155,7 +155,7 @@ class BosClient(BceBaseClient):
                            params={'acl': ''},
                            config=config)
 
-    @required(bucket_name=(str, str), canned_acl=str)
+    @required(bucket_name=str, canned_acl=str)
     def set_bucket_canned_acl(self, bucket_name, canned_acl, config=None):
         """
 
@@ -170,7 +170,7 @@ class BosClient(BceBaseClient):
                            params={'acl': ''},
                            config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def delete_bucket(self, bucket_name, config=None):
         """
         Delete a Bucket(Must Delete all the Object in Bucket before)
@@ -182,7 +182,7 @@ class BosClient(BceBaseClient):
         """
         return self._send_request(http_methods.DELETE, bucket_name, config=config)
 
-    @required(bucket_name=(str, str), key=str)
+    @required(bucket_name=str, key=str)
     def generate_pre_signed_url(self,
                                 bucket_name,
                                 key,
@@ -238,7 +238,7 @@ class BosClient(BceBaseClient):
                                  path,
                                  utils.get_canonical_querystring(params, False))
 
-    @required(bucket_name=(str, str), rules=(list, dict))
+    @required(bucket_name=str, rules=(list, dict))
     def put_bucket_lifecycle(self, 
                              bucket_name,
                              rules,
@@ -260,7 +260,7 @@ class BosClient(BceBaseClient):
                                   body=json.dumps({'rule': rules}),
                                   config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def get_bucket_lifecycle(self, bucket_name, config=None):
         """
         Get Bucket Lifecycle
@@ -275,7 +275,7 @@ class BosClient(BceBaseClient):
                                   params={'lifecycle': ''},
                                   config=config) 
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def delete_bucket_lifecycle(self, bucket_name, config=None):
         """
         Delete Bucket Lifecycle
@@ -290,7 +290,7 @@ class BosClient(BceBaseClient):
                                   params={'lifecycle': ''},
                                   config=config)       
     
-    @required(bucket_name=(str, str), cors_configuration=list)
+    @required(bucket_name=str, cors_configuration=list)
     def put_bucket_cors(self, 
                         bucket_name,
                         cors_configuration,
@@ -311,7 +311,7 @@ class BosClient(BceBaseClient):
                                   body=json.dumps({'corsConfiguration': cors_configuration}),
                                   config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def get_bucket_cors(self, bucket_name, config=None):
         """
         Get Bucket Cors
@@ -326,7 +326,7 @@ class BosClient(BceBaseClient):
                                   params={'cors': ''},
                                   config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def delete_bucket_cors(self, bucket_name, config=None):
         """
         Delete Bucket Cors
@@ -341,7 +341,7 @@ class BosClient(BceBaseClient):
                                   params={'cors': ''},
                                   config=config)
 
-    @required(bucket_name=(str, str))        
+    @required(bucket_name=str)        
     def list_objects(self, bucket_name,
                      max_keys=1000, prefix=None, marker=None, delimiter=None,
                      config=None):
@@ -378,7 +378,7 @@ class BosClient(BceBaseClient):
 
         return self._send_request(http_methods.GET, bucket_name, params=params, config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def list_all_objects(self, bucket_name, prefix=None, delimiter=None, config=None):
         """
 
@@ -434,7 +434,7 @@ class BosClient(BceBaseClient):
         response.data = http_response
         return True
 
-    @required(bucket_name=(str, str), key=str)
+    @required(bucket_name=str, key=str)
     def get_object(self, bucket_name, key, range=None, config=None):
         """
 
@@ -462,7 +462,7 @@ class BosClient(BceBaseClient):
             f.close()
         return True
 
-    @required(bucket_name=(str, str), key=str)
+    @required(bucket_name=str, key=str)
     def get_object_as_string(self, bucket_name, key, range=None, config=None):
         """
 
@@ -477,7 +477,7 @@ class BosClient(BceBaseClient):
         response.data.close()
         return s
 
-    @required(bucket_name=(str, str), key=str, file_name=str)
+    @required(bucket_name=str, key=str, file_name=str)
     def get_object_to_file(self, bucket_name, key, file_name, range=None, config=None):
         """
         Get Content of Object and Put Content to File
@@ -508,7 +508,7 @@ class BosClient(BceBaseClient):
                 file_name,
                 self._get_config_parameter(config, 'recv_buf_size')))
 
-    @required(bucket_name=(str, str), key=str)
+    @required(bucket_name=str, key=str)
     def get_object_meta_data(self, bucket_name, key, config=None):
         """
         Get head of object
@@ -523,11 +523,11 @@ class BosClient(BceBaseClient):
         """
         return self._send_request(http_methods.HEAD, bucket_name, key, config=config)
 
-    @required(bucket_name=(str, str),
+    @required(bucket_name=str,
               key=str,
               data=object,
-              content_length=(int, int),
-              content_md5=str)
+              content_length=int,
+              content_md5=bytes)
     def append_object(self, bucket_name, key, data,
                      content_md5,
                      content_length,
@@ -578,9 +578,9 @@ class BosClient(BceBaseClient):
             params=params,
             config=config)
 
-    @required(bucket_name=(str, str),
+    @required(bucket_name=str,
                            key=str,
-                           data=(str, str))
+                           data=str)
     def append_object_from_string(self, bucket_name, key, data,
                                   content_md5=None,
                                   offset=None,
@@ -594,8 +594,6 @@ class BosClient(BceBaseClient):
         Create an appendable object and put content of string to the object
         or add content of string to an appendable object
         """
-        if isinstance(data, str):
-            data = data.encode(baidubce.DEFAULT_ENCODING)
 
         fp = None
         try:
@@ -620,10 +618,10 @@ class BosClient(BceBaseClient):
             if fp is not None:
                 fp.close()
 
-    @required(bucket_name=(str, str),
+    @required(bucket_name=str,
               key=str,
               data=object,
-              content_length=(int, int),
+              content_length=int,
               content_md5=bytes)
     def put_object(self, bucket_name, key, data,
                    content_length,
@@ -675,7 +673,7 @@ class BosClient(BceBaseClient):
             headers=headers,
             config=config)
 
-    @required(bucket=(str, str), key=str, data=(str, str))
+    @required(bucket=str, key=str, data=str)
     def put_object_from_string(self, bucket, key, data,
                                content_md5=None,
                                content_type=None,
@@ -773,9 +771,9 @@ class BosClient(BceBaseClient):
         finally:
             fp.close()
 
-    @required(source_bucket_name=(str, str),
+    @required(source_bucket_name=str,
               source_key=str,
-              target_bucket_name=(str, str),
+              target_bucket_name=str,
               target_key=str)
     def copy_object(self,
                     source_bucket_name, source_key,
@@ -832,7 +830,7 @@ class BosClient(BceBaseClient):
             config=config,
             body_parser=bos_handler.parse_copy_object_response)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def delete_object(self, bucket_name, key, config=None):
         """
         Delete Object
@@ -847,7 +845,7 @@ class BosClient(BceBaseClient):
         """
         return self._send_request(http_methods.DELETE, bucket_name, key, config=config)
 
-    @required(bucket_name=(str, str), key_list=list)
+    @required(bucket_name=str, key_list=list)
     def delete_multiple_objects(self, bucket_name, key_list, config=None):
         """
         Delete Multiple Objects
@@ -867,9 +865,9 @@ class BosClient(BceBaseClient):
                                   params={'delete': ''},
                                   config=config)
 
-    @required(source_bucket=(str, str),
-              target_bucket=(str, str),
-              target_prefix=(str, str))
+    @required(source_bucket=str,
+              target_bucket=str,
+              target_prefix=str)
     def put_bucket_logging(self,
                           source_bucket,
                           target_bucket,
@@ -893,7 +891,7 @@ class BosClient(BceBaseClient):
                                                   'targetPrefix': target_prefix}),
                                   config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def get_bucket_logging(self, bucket_name, config=None):
         """
         Get Bucket Logging
@@ -908,7 +906,7 @@ class BosClient(BceBaseClient):
                                   params={'logging': ''},
                                   config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def delete_bucket_logging(self, bucket_name, config=None):
         """
         Delete Bucket Logging
@@ -923,7 +921,7 @@ class BosClient(BceBaseClient):
                                   params={'logging': ''},
                                   config=config)
 
-    @required(bucket_name=(str, str))    
+    @required(bucket_name=str)    
     def initiate_multipart_upload(self, 
                                   bucket_name, 
                                   key, 
@@ -959,11 +957,11 @@ class BosClient(BceBaseClient):
             params={'uploads': ''},
             config=config)
 
-    @required(bucket_name=(str, str),
+    @required(bucket_name=str,
               key=str,
-              upload_id=(str, str),
+              upload_id=str,
               part_number=int,
-              part_size=(int, int),
+              part_size=int,
               part_fp=object)
     def upload_part(self, bucket_name, key, upload_id,
                     part_number, part_size, part_fp, part_md5=None,
@@ -1020,14 +1018,14 @@ class BosClient(BceBaseClient):
             params={'partNumber': part_number, 'uploadId': upload_id},
             config=config)
 
-    @required(source_bucket_name=(str, str),
+    @required(source_bucket_name=str,
               source_key=str,
-              target_bucket_name=(str, str),
+              target_bucket_name=str,
               target_key=str,
-              upload_id=(str, str),
+              upload_id=str,
               part_number=int,
-              part_size=(int, int),
-              offset=(int, int))
+              part_size=int,
+              offset=int)
     def upload_part_copy(self, 
                          source_bucket_name, source_key, 
                          target_bucket_name, target_key,
@@ -1076,13 +1074,13 @@ class BosClient(BceBaseClient):
             params={'partNumber': part_number, 'uploadId': upload_id},
             config=config)    
 
-    @required(bucket_name=(str, str),
+    @required(bucket_name=str,
               key=str,
-              upload_id=(str, str),
+              upload_id=str,
               part_number=int,
-              part_size=(int, int),
+              part_size=int,
               file_name=str,
-              offset=(int, int))
+              offset=int)
     def upload_part_from_file(self, bucket_name, key, upload_id,
                               part_number, part_size, file_name, offset, part_md5=None,
                               config=None):
@@ -1107,9 +1105,9 @@ class BosClient(BceBaseClient):
         finally:
             f.close()
 
-    @required(bucket_name=(str, str),
+    @required(bucket_name=str,
               key=str,
-              upload_id=(str, str),
+              upload_id=str,
               part_list=list)
     def complete_multipart_upload(self, bucket_name, key,
                                   upload_id, part_list,
@@ -1145,7 +1143,7 @@ class BosClient(BceBaseClient):
             headers=headers,
             params={'uploadId': upload_id})
 
-    @required(bucket_name=(str, str), key=str, upload_id=(str, str))
+    @required(bucket_name=str, key=str, upload_id=str)
     def abort_multipart_upload(self, bucket_name, key, upload_id, config=None):
         """
         Abort upload a part which is being uploading.
@@ -1164,7 +1162,7 @@ class BosClient(BceBaseClient):
         return self._send_request(http_methods.DELETE, bucket_name, key,
                                   params={'uploadId': upload_id})
 
-    @required(bucket_name=(str, str), key=str, upload_id=(str, str))
+    @required(bucket_name=str, key=str, upload_id=str)
     def list_parts(self, bucket_name, key, upload_id,
                    max_parts=None, part_number_marker=None,
                    config=None):
@@ -1196,7 +1194,7 @@ class BosClient(BceBaseClient):
 
         return self._send_request(http_methods.GET, bucket_name, key, params=params, config=config)
 
-    @required(bucket_name=(str, str), key=str, upload_id=(str, str))
+    @required(bucket_name=str, key=str, upload_id=str)
     def list_all_parts(self, bucket_name, key, upload_id, config=None):
         """
 
@@ -1216,7 +1214,7 @@ class BosClient(BceBaseClient):
                 break
             part_number_marker = response.next_part_number_marker
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def list_multipart_uploads(self, bucket_name, max_uploads=None, key_marker=None,
                                prefix=None, delimiter=None,
                                config=None):
@@ -1256,7 +1254,7 @@ class BosClient(BceBaseClient):
 
         return self._send_request(http_methods.GET, bucket_name, params=params, config=config)
 
-    @required(bucket_name=(str, str))
+    @required(bucket_name=str)
     def list_all_multipart_uploads(self, bucket_name, prefix=None, delimiter=None, config=None):
         """
 

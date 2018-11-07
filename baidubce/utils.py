@@ -118,10 +118,8 @@ def convert_to_standard_string(input_string):
     :param input_string: None
     =======================
     :return:
-        **bytes**
+        **string**
     """
-    if isinstance(input_string, str):
-        return input_string
     if isinstance(input_string, bytes):
         return input_string.decode(baidubce.DEFAULT_ENCODING)
     else:
@@ -354,10 +352,10 @@ def print_object(obj):
     tmp = []
     for k, v in list(obj.__dict__.items()):
         if not k.startswith('__'):
-            if isinstance(v, str):
-                tmp.append("%s:'%s'" % (k, v))
+            if isinstance(v, bytes):
+                tmp.append("%s:'%s'" % (k, v.decode(baidubce.DEFAULT_ENCODING)))
             elif isinstance(v, str):
-                tmp.append("%s:u'%s'" % (k, v))
+                tmp.append("%s:'%s'" % (k, v))
             else:
                 tmp.append('%s:%s' % (k, v))
     return '{%s}' % ','.join(tmp)
