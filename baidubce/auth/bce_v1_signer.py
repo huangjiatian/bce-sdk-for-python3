@@ -37,7 +37,11 @@ def _get_canonical_headers(headers, headers_to_sign=None):
     result = []
     for k in headers:
         k_lower = k.strip().lower()
-        value = str(headers[k]).strip()
+        value = ''
+        if isinstance(headers[k], bytes):
+            value = headers[k].decode(baidubce.DEFAULT_ENCODING).strip()
+        else:
+            value = str(headers[k]).strip()
         if k_lower.startswith(http_headers.BCE_PREFIX) \
                 or k_lower in headers_to_sign:
             str_tmp = "%s:%s" % (utils.normalize_string(k_lower), utils.normalize_string(value))

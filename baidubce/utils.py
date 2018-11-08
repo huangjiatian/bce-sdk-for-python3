@@ -121,10 +121,9 @@ def convert_to_standard_string(input_string):
         **string**
     """
     if isinstance(input_string, bytes):
-        return input_string.decode(baidubce.DEFAULT_ENCODING)
+        return input_string
     else:
-        return str(input_string)
-
+        return str(input_string).encode(baidubce.DEFAULT_ENCODING)
 
 def convert_header2map(header_list):
     """
@@ -208,10 +207,10 @@ def normalize_string(in_str, encoding_slash=True):
     """
     tmp = []
     for ch in convert_to_standard_string(in_str):
-        if ch == '/' and not encoding_slash:
+        if ch == 47 and not encoding_slash:
             tmp.append('/')
         else:
-            tmp.append(_NORMALIZED_CHAR_LIST[ord(ch)])
+            tmp.append(_NORMALIZED_CHAR_LIST[ch])
     return ''.join(tmp)
 
 
