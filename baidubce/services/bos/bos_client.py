@@ -707,7 +707,7 @@ class BosClient(BceBaseClient):
                 content_md5 = utils.get_md5_from_fp(
                     fp, buf_size=self._get_config_parameter(config, 'recv_buf_size'))
             return self.put_object(bucket, key, fp,
-                                   content_length=len(data),
+                                   content_length=len(data.encode('utf-8')),
                                    content_md5=content_md5,
                                    content_type=content_type,
                                    content_sha256=content_sha256,
