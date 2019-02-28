@@ -62,7 +62,9 @@ def _send_http_request(conn, http_method, uri, headers, body, send_buf_size):
     conn.endheaders()
 
     if body:
-        if isinstance(body, (str, bytes)):
+        if isinstance(body, str):
+            body = body.encode(baidubce.DEFAULT_ENCODING)
+        if isinstance(body, bytes):
             conn.send(body)
         else:
             total = int(headers[http_headers.CONTENT_LENGTH])
@@ -72,6 +74,8 @@ def _send_http_request(conn, http_method, uri, headers, body, send_buf_size):
                 if size > send_buf_size:
                     size = send_buf_size
                 buf = body.read(size)
+                if isinstance(buf, str):
+                    buf = buf.encode(baidubce.DEFAULT_ENCODING)
                 if not buf:
                     raise BceClientError(
                         'Insufficient data, only %d bytes available while %s is %d' % (
@@ -129,9 +133,11 @@ def send_request(
         should_get_new_date = True
     headers[http_headers.HOST] = config.endpoint
 
+    if isinstance(body, str):
+        body = body.encode(baidubce.DEFAULT_ENCODING)
     if not body:
         headers[http_headers.CONTENT_LENGTH] = 0
-    elif isinstance(body, (str, bytes)):
+    elif isinstance(body, bytes):
         headers[http_headers.CONTENT_LENGTH] = len(body)
     elif http_headers.CONTENT_LENGTH not in headers:
         raise ValueError('No %s is specified.' % http_headers.CONTENT_LENGTH)
